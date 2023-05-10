@@ -32,13 +32,15 @@ $$
 y(\Phi,w)=\Phi w
 $$
 
-- $\Phi$ is vector *NxM* of non-linear basis functions of the input vector **x**. In this way we will be able to have a model that is linear in parameters **w**.
+- $\Phi$ is a **NxM** vector of non-linear basis functions of the input vector **x**. In this way we will be able to have a model that is linear in parameters **w**.
 
 $$
-X=[x_1, x_2, ..., x_N]^T
-\boldsymbol{\Phi}=[\Phi_1(X), \Phi_2(X), ..., \Phi_M(X)]^T
-\Phi=[\Phi(x_1), \Phi(x_2), ..., \Phi(x_N)]
+X=[x_1, x_2, ..., x_N]^T \\
+\boldsymbol{\Phi}=[\Phi_1(X), \Phi_2(X), ..., \Phi_M(X)]^T \\
+\boldsymbol{\Phi}=[\Phi(x_1), \Phi(x_2), ..., \Phi(x_N)]^T 
 $$
 
+![](https://ik.imagekit.io/frnz98/LR_1.png?updatedAt=1683710631203)
+*Figure 2.1: Linear model in input space (top left) and in feature space (bottom right)*
 
 ------
