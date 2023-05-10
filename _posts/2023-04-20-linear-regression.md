@@ -36,11 +36,45 @@ $$
 
 $$
 X=[x_1, x_2, ..., x_N]^T \\
-\boldsymbol{\Phi}=[\Phi_1(X), \Phi_2(X), ..., \Phi_M(X)]^T \\
+\Phi=[\Phi_1(X), \Phi_2(X), ..., \Phi_M(X)]^T \\
 \boldsymbol{\Phi}=[\Phi(x_1), \Phi(x_2), ..., \Phi(x_N)]^T 
 $$
 
 ![](https://ik.imagekit.io/frnz98/LR_1.png?updatedAt=1683710631203)
-*Figure 2.1: Linear model in input space (top left) and in feature space (bottom right)*
+*Figure 1.1: Linear model in input space (top left) and in feature space (bottom right)*
+
+Some possible basis functions we can use:
+
+- Polynomial $\rightarrow \phi_j(x) = x^j$
+  
+- Gaussian $\rightarrow \phi_j(x) = e^{-\frac{(x-\mu_j)^2}{2\sigma^2}}$
+  
+- Sigmoidal $\rightarrow \phi_j(x) = \frac{1}{1+e^{(\mu_j-x)/\sigma}}$
+
+
+Once the model has been defined, we need to define the **Loss Function**. Generally, the
+common choice is the *square loss*, i.e. (considering 1 input vector and 1 target value):
+
+$$
+L(t, y(X))=(t − y(X))^2
+$$
+
+This is an empirical loss computed from the target and the inputs, which are random variables. This implies that the loss has a distribution, i.e. the joint distribution p(t, x). In order to evaluate how bad the model performs on a sample < x, t >, we consider the expected loss:
+
+$$
+L(t, y(X))=\int \int (t − y(X))^2p(X, t)dXdt
+$$
+
+
+# Direct Approach
+
+Let's now dive into the first technique we will discover in this post: the Ordinary **Least Squares** method (OLS).
+It is classified as a *Direct Approach* since it finds the optimal model y(X) without passing from the definition above with probabilities, but it estimates it directly from the data.
+
+### Model definition
+The LS model is the one desribed in function **(2)**: NxM matrix $\phi$, Mx1 parameter vector w and Nx1 result y.
+
+### Loss definition
+
 
 ------
