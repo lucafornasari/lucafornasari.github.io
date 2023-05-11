@@ -36,8 +36,8 @@ $$
 
 $$
 X=[x_1, x_2, ..., x_N]^T \\
-\Phi=[\Phi_1(X), \Phi_2(X), ..., \Phi_M(X)]^T \\
-\boldsymbol{\Phi}=[\Phi(x_1), \Phi(x_2), ..., \Phi(x_N)]^T 
+\phi=[\phi_1(X), \phi_2(X), ..., \phi_M(X)]^T \\
+\boldsymbol{\Phi}=[\phi(x_1), \phi(x_2), ..., \phi(x_N)]^T 
 $$
 
 ![](https://ik.imagekit.io/frnz98/LR_1.png?updatedAt=1683710631203)
