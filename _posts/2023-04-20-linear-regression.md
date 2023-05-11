@@ -75,6 +75,6 @@ It is classified as a *Direct Approach* since it finds the optimal model y(X) wi
 The LS model is the one desribed in function **(2)**: NxM matrix $\phi$, Mx1 parameter vector w and Nx1 result y.
 
 ### Loss definition
-
+Loss
 
 ------
