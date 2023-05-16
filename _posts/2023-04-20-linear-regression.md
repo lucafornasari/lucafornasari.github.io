@@ -66,7 +66,7 @@ L(t, y(X))=\int \int (t − y(X))^2p(X, t)dXdt
 $$
 
 
-# Direct Approach
+## Direct Approach
 
 Let's now dive into the first technique we will discover in this post: the Ordinary **Least Squares** method (OLS).
 It is classified as a *Direct Approach* since it finds the optimal model y(X) without passing from the definition above with probabilities, but it estimates it directly from the data.
@@ -79,13 +79,13 @@ The Loss Function is typically the residual sum of squares **RSS**, which is the
 
 $$
 L(X,w)=\frac{1}{2}\sum(t-y(X,w))^2 \\
-\epsilon=(t-y(X,w))
-L(X,w)=\frac{1}{2}||\epsilon||_2^2=\epsilon^T\epsilon
+\epsilon=(t-y(X,w)) \\
+L(X,w)=\frac{1}{2}||\epsilon||_2^2=\frac{1}{2}\epsilon^T\epsilon
 $$
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Linear_least_squares_example2.svg/1043px-Linear_least_squares_example2.svg.png" style="display: block; margin-left: auto; margin-right: auto;width: 400px;height: 400px;">
 
-## Optimization
+### Optimization
 Now that we have our loss function we have to minimize it, hence choose $\boldsymbol{w}$ so that $E(\boldsymbol{w})$ is as small as possible. Since the error function is a quadratic function of the coefficients $\boldsymbol{w}$, its derivative with respect to them will be linear, and so the minimization has a unique solution, denoted by $\boldsymbol{w^*}$.
 
 Putting the gradient of the Loss = 0 and checking that the eigenvalues of the Hessian are >=0, we find that the solution found by the LS method is:
@@ -96,12 +96,92 @@ $$
 
 The method **cannot** be applied if:
 - The matrix $\Phi^T\Phi$ is singular, hence some features are dependent
-- The number of data is smaller than the number of the features (N<M), i.e. the system $y(X,w)=\Phi w$ is not solvable wrt **w+*.
-- There are too many data, thus the computation is too expensive. So, in this case a good idea could be using an online algorithm, in which the gradient is computed one sample at a time. The most famous and used algorithm is the **stochastic gradient descent**, which updates the parameters **w** at each iteration in the following way:
+- The number of data is smaller than the number of the features (N<M), i.e. the system $y(X,w)=\Phi w$ is not solvable wrt **w**.
+- There are too many data, thus the computation is too expensive. So, in this case a good idea could be using an online algorithm, in which the gradient is computed one sample at a time. The most famous and used algorithm is the **stochastic gradient descent**, which updates the parameters $\boldsymbol{w}$ at each iteration in the following way:
 
 $$
-\boldsymbol{w}^{k+1} = \boldsymbol{w}^k - \eta\nabla E_n
+\boldsymbol{w}^{k+1} = \boldsymbol{w}^k - \eta\nabla L(X,w)
 $$
+
+
+## Discriminative Approach
+
+In linear regression, a discriminative approach refers to modeling the conditional probability distribution of the target variable *t* given the input variables *X*. In other words, it focuses on estimating the probability $P(t|X)$, which represents the **Likelyhood** of observing a particular target value *t* given an input value *X*. The method we are going to see is called **Maximum Likelyhood** estimation.
+
+### Model definition
+Differently from the direct approach, we assume that the estimated target *t* is given by a deterministic function $y(x,w)$ with additive Gaussian noise:
+
+$$
+y(X,w)=\Phi w + \epsilon
+$$
+
+where $\epsilon \sim \mathcal{N}(0,\sigma^2)$. Hence $t \sim \mathcal{N}(y(X,w),\sigma^2)$.
+
+### Loss definition
+Given that the entries are all **i.i.d.** (Independent Identically Distributed), the global likelyhood for N samples is the product of the likelyhood of the single entries:
+
+$$
+p(\boldsymbol{t}|\Phi\boldsymbol{w},\sigma^2) = \prod_{n=1}^{N}\mathcal{N}(t_n|\boldsymbol{w}^T\phi(x_n), \sigma^2)
+$$
+
+By exploiting the *ln* properties, we can consider the **log-likelyhood** in order to handle a sum and not a product:
+
+$$
+ln(p(\boldsymbol{t}|\Phi\boldsymbol{w},\sigma^2)) = \sum_{n=1}^{N}ln(\mathcal{N}(t_n|\boldsymbol{w}^T\phi(x_n), \sigma^2))
+$$
+
+### Optimization
+Since the zeros of a function *f* are the same of a function *ln(f)*, we can put the gradient of the log-likelyhood = 0 and find:
+
+$$
+\boldsymbol{w^{ML}} = (\Phi^T\Phi)^{-1}\Phi^T\boldsymbol{t}
+$$
+
+We notice that the result of the **ML** estimation, in case of **i.i.d.** variables, is the same of the **LS** estimation.
+Moreover, the **ML** estimation has the minimum variance among all the unbiased estimators:
+
+$$
+VAR[\boldsymbol{w^{ML}}] = (\Phi^T\Phi)^{-1}\Phi^T\sigma^2
+$$
+
+
+## Regularization
+
+When we design and train a ML model is important to avoid **overfitting** and **underfitting**. In particular, the first one usually depends on the high values of the parameters. 
+Resularization techniques help to avoid the problem by using a loss that is also function of the parameters' modules.
+
+$$
+L(w)=L_D(w)+\lambda L_w(w)
+$$
+
+Where $L_D$ is the error on data, and $L_w$ is the error on parameters.
+The two most used solutions are called **Ridge* and **Lasso**:
+
+### Ridge Regression
+
+$$
+L_w(w)=\frac{1}{2}w^Tw=\frac{1}{2}\sum|w_j|^2=\frac{1}{2}||\epsilon||_2^2 \\
+w^{ridge}=(\lambda I+\Phi^T\Phi)^{-1}\Phi^Tt
+$$
+
+Where $\lambda>0$. This forces the eigenvalues of the inverted matrix to be > 0 and thus there are no big values of parameters (smoother function). The advantage of Ridge regression is that the loss function remains quadratic in $w$, so its exact minimizer can be found in closed form.
+
+### Lasso Regression
+
+$$
+L_w(w)=\frac{1}{2}\sum|w_j|=\frac{1}{2}||\epsilon||_1
+$$
+
+where $\lambda>0$. It is nonlinear, there is no close-form solution but the non-important features are set to zero thus it leads to a sparse model.
+
+<img src="https://i.ibb.co/373pzxc/ridge-lasso.png" style="display: block; margin-left: auto; margin-right: auto;width: 650px;height: 400px;">
+
+In the picture above we can see where the origin of sparsity in Lasso comes from: the optimum value $\boldsymbol{w}^*$ will probably be on one of the vertices, hence on the axes, where some features are zero (the features in the image are indicated as $\beta_j$).
+In cases of multi-correlation, i.e. many features are correlated with each other, this can be useful as the Lasso regression will set some of them to zero as said before.
+
+
+## Bayesian Linear regression
+
 
 
 
