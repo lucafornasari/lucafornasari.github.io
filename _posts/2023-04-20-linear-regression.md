@@ -106,7 +106,8 @@ $$
 
 ## Discriminative Approach
 
-In linear regression, a discriminative approach refers to modeling the conditional probability distribution of the target variable *t* given the input variables *X*. In other words, it focuses on estimating the probability $P(t|X)$, which represents the **Likelyhood** of observing a particular target value *t* given an input value *X*. The method we are going to see is called **Maximum Likelyhood** estimation.
+In linear regression, a discriminative approach refers to modeling the conditional probability distribution of the target variable *t* given the input variables *X*. 
+In other words, it focuses on estimating the probability $P(t|X)$, which represents the **Likelyhood** of observing a particular target value *t* given an input value *X*. The method we are going to see is called **Maximum Likelyhood** estimation.
 
 ### Model definition
 Differently from the direct approach, we assume that the estimated target *t* is given by a deterministic function $y(x,w)$ with additive Gaussian noise:
