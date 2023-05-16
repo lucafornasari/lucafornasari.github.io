@@ -72,9 +72,37 @@ Let's now dive into the first technique we will discover in this post: the Ordin
 It is classified as a *Direct Approach* since it finds the optimal model y(X) without passing from the definition above with probabilities, but it estimates it directly from the data.
 
 ### Model definition
-The LS model is the one desribed in function **(2)**: NxM matrix $\phi$, Mx1 parameter vector w and Nx1 result y.
+The LS model is the one desribed in function **(2)**: NxM matrix $\Phi$, Mx1 parameter vector w and Nx1 result y.
 
 ### Loss definition
-Loss
+The Loss Function is typically the residual sum of squares **RSS**, which is the L2-norm of the residual error $\epsilon$:
+
+$$
+L(X,w)=\frac{1}{2}\sum(t-y(X,w))^2 \\
+\epsilon=(t-y(X,w))
+L(X,w)=\frac{1}{2}||\epsilon||_2^2=\epsilon^T\epsilon
+$$
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Linear_least_squares_example2.svg/1043px-Linear_least_squares_example2.svg.png" style="display: block; margin-left: auto; margin-right: auto;width: 400px;height: 400px;">
+
+## Optimization
+Now that we have our loss function we have to minimize it, hence choose $\boldsymbol{w}$ so that $E(\boldsymbol{w})$ is as small as possible. Since the error function is a quadratic function of the coefficients $\boldsymbol{w}$, its derivative with respect to them will be linear, and so the minimization has a unique solution, denoted by $\boldsymbol{w^*}$.
+
+Putting the gradient of the Loss = 0 and checking that the eigenvalues of the Hessian are >=0, we find that the solution found by the LS method is:
+
+$$
+\boldsymbol{w}^{LS} = (\Phi^T\Phi)^{-1}\Phi^Tt
+$$
+
+The method **cannot** be applied if:
+- The matrix $\Phi^T\Phi$ is singular, hence some features are dependent
+- The number of data is smaller than the number of the features (N<M), i.e. the system $y(X,w)=\Phi w$ is not solvable wrt **w+*.
+- There are too many data, thus the computation is too expensive. So, in this case a good idea could be using an online algorithm, in which the gradient is computed one sample at a time. The most famous and used algorithm is the **stochastic gradient descent**, which updates the parameters **w** at each iteration in the following way:
+
+$$
+\boldsymbol{w}^{k+1} = \boldsymbol{w}^k - \eta\nabla E_n
+$$
+
+
 
 ------
