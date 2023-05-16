@@ -182,6 +182,55 @@ In cases of multi-correlation, i.e. many features are correlated with each other
 
 ## Bayesian Linear regression
 
+Till now we have adopted a frequentist approach, namely we've seen the probabilities in terms of frequencies of random, repeatable events. Sometimes, however, it's not possible to repeat multiple times an event to obtain a notion of probability. Moreover, we've also seen that using maximum likelihood for setting the parameters we have the problem of the model complexity. Regularization is a good answer, but still, the choice of the basis functions remains important and also the value of $\lambda$ is an incognita.
+
+Bayesian approach aims to estimate the parameters by incorporating prior information or assumptions about them. It is called **Maximum A Posteriori** (MAP) since it finds the parameter values that maximize the posterior probability of the parameters given the observed data. The posterior probability is computed using Bayes' theorem, which states:
+
+$$
+P(A|B)=\frac{p(B|A)P(A)}{P(B)}
+$$
+
+An important consideration is that this approach is not affected by the problem of overfitting and it also leads to automatic methods of determining model complexity using the training data alone.
+
+But let's now apply the Bayes theorem to our case:
+
+$$
+P(w|D)=\frac{P(D|w)P(w)}{P(D)}
+$$
+
+- $P(w|D)$: posterior distribution, the probability of the parameters $w$ given the data $D$.
+- $P(D|w$: likelyhood.
+- $P(w)$: prior distribution, it represents the prior knowledge, assumptions, or beliefs about the parameters before observing the data. If we have any domain knowledge, or a guess for what the model parameters should be, we can include them in our model, unlike in the frequentist approach which assumes everything there is to know about the parameters comes from the data. If we don’t have any estimates ahead of time, we can use non-informative priors for the parameters such as a normal distribution.
+
+Let's now jump into our model definition.
+Since we assume a Gaussian likelyhood, it is convenient to consider a Gaussian distribution for parameters too:
+
+$$
+P(w) \sim N(w|w_0, S_0)
+$$
+
+Where $w_0$ is a **Mx1** mean and $S_0$ is the **MxM** covariance matrix.
+For the likelyhood the definition is the same as the MLE approach.
+
+Thus, according to Bayes theorem:
+
+$$
+p(\boldsymbol{w}|\Phi\boldsymbol{t},\Phi,\sigma^2) \propto \mathcal{N}(\boldsymbol{w}|\boldsymbol{w_0},\boldsymbol{S_0})\mathcal{N}(\boldsymbol{t}|\Phi\boldsymbol{w},\sigma^2\boldsymbol{I_N}) = \mathcal{N}(\boldsymbol{w}|\boldsymbol{w_N},\boldsymbol{S_N})
+$$
+
+The result is a **multivariate Gaussian** distribution $\mathcal{N}(\boldsymbol{w}|\boldsymbol{w_N},\boldsymbol{S_N})$.
+
+Maximizing the posterior we get:
+
+$$
+\boldsymbol{w_N} = \boldsymbol{S_N}(\boldsymbol{S_0}^{-1}\boldsymbol{w_0}+\frac{\Phi^T\boldsymbol{t}}{\sigma^2}) \\
+\boldsymbol{S_N}^{-1} = \boldsymbol{S_0}^{-1} + \frac{\Phi^T\Phi}{\sigma^2}
+$$
+
+- If $\boldsymbol{S_0} \rightarrow + \infty$ we have no prior knowledge, thus the MAP estimation is the same of the MLE: $\boldsymbol{w^{MAP}} = (\Phi^T\Phi)^{-1}\Phi^T\boldsymbol{t}$.
+- If $\boldsymbol{w_0}=0, \boldsymbol{S_0}=\tau^2 I$, MAP estimation coincides with a Ridge regression with $\lambda=\frac{\sigma^2}{\tau^2}: \boldsymbol{w^{MAP}} = (\frac{\sigma^2}{\tau^2} I+\Phi^T\Phi)^{-1}\Phi^T\boldsymbol{t}$.
+
+
 
 
 
