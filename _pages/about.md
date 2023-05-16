@@ -14,6 +14,7 @@ Hi, I’m Luca. I'm an M.Sc. student of Computer Science Engineering at the Poly
 <ol type="I">
     <li><b>Machine Learning</b></li>
         <ul>
+          <li>{{"[Linear Regression](/posts/2023/04/linear-regression/)" | markdownify}}</li>
         </ul>
     <li><b>Neural Networks and Deep Learning</b></li>
         <ul>
