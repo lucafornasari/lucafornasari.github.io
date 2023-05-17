@@ -149,7 +149,7 @@ $$
 ## Regularization
 
 When we design and train a ML model is important to avoid **overfitting** and **underfitting**. In particular, the first one usually depends on the high values of the parameters. 
-Resularization techniques help to avoid the problem by using a loss that is also function of the parameters' modules.
+Regularization techniques help to avoid the problem by using a loss that is also function of the parameters' values.
 
 $$
 L(w)=L_D(w)+\lambda L_w(w)
@@ -188,7 +188,7 @@ Till now we have adopted a frequentist approach, namely we've seen the probabili
 Bayesian approach aims to estimate the parameters by incorporating prior information or assumptions about them. It is called **Maximum A Posteriori** (MAP) since it finds the parameter values that maximize the posterior probability of the parameters given the observed data. The posterior probability is computed using Bayes' theorem, which states:
 
 $$
-P(A|B)=\frac{p(B|A)P(A)}{P(B)}
+P(A|B)=\frac{P(B|A)P(A)}{P(B)}
 $$
 
 An important consideration is that this approach is not affected by the problem of overfitting and it also leads to automatic methods of determining model complexity using the training data alone.
@@ -199,15 +199,15 @@ $$
 P(w|D)=\frac{P(D|w)P(w)}{P(D)}
 $$
 
-- $P(w|D)$: posterior distribution, the probability of the parameters $w$ given the data $D$.
-- $P(D|w$: likelyhood.
+- $P(w|D)$: posterior distribution, the probability of the parameters $\boldsymbol{w}$ given the data $D$.
+- $P(D|w)$: likelyhood.
 - $P(w)$: prior distribution, it represents the prior knowledge, assumptions, or beliefs about the parameters before observing the data. If we have any domain knowledge, or a guess for what the model parameters should be, we can include them in our model, unlike in the frequentist approach which assumes everything there is to know about the parameters comes from the data. If we don’t have any estimates ahead of time, we can use non-informative priors for the parameters such as a normal distribution.
 
 Let's now jump into our model definition.
 Since we assume a Gaussian likelyhood, it is convenient to consider a Gaussian distribution for parameters too:
 
 $$
-P(w) \sim N(w|w_0, S_0)
+p(w) \sim \mathcal{N}(\boldsymbol{w}|\boldsymbol{w_0}, \boldsymbol{S_0})
 $$
 
 Where $w_0$ is a **Mx1** mean and $S_0$ is the **MxM** covariance matrix.
