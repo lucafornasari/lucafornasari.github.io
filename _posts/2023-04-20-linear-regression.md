@@ -156,7 +156,7 @@ L(w)=L_D(w)+\lambda L_w(w)
 $$
 
 Where $L_D$ is the error on data, and $L_w$ is the error on parameters.
-The two most used solutions are called **Ridge* and **Lasso**:
+The two most used solutions are called **Ridge** and **Lasso**:
 
 ### Ridge Regression
 
